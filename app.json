@@ -16,6 +16,9 @@
       ]
     ],
     "name": "KeyBud",
-    "slug": "KeyBud"
+    "slug": "KeyBud",
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
