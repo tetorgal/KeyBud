@@ -10,5 +10,10 @@
   "it_consulting_description": "Expert advice to improve your IT infrastructure.",
   "cloud_solutions_title": "Cloud Solutions",
   "cloud_solutions_description": "Innovative cloud solutions to meet your business needs.",
-  "read_more": "Read More"
+  "read_more": "Read More",
+  "services_title": "Elevate Your Solutions",
+  "services_description": "Discover our wide range of services to boost your business",
+  "services": "Services",
+  "pricing": "Pricing",
+  "profile": "Profile"
 }
