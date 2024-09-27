@@ -67,6 +67,7 @@ function Content() {
 }
 
 function Header() {
+  const { t } = useTranslation();
   const { top } = useSafeAreaInsets();
   return (
     <View style={{ paddingTop: top }}>
@@ -82,19 +83,19 @@ function Header() {
             className="text-neutral-100 dark:text-neutral-400 text-md font-medium hover:underline web:underline-offset-4"
             href="/services"
           >
-            Services
+            {t("services")}
           </Link>
           <Link
             className="text-neutral-100 dark:text-neutral-400 text-md font-medium hover:underline web:underline-offset-4"
             href="/pricing"
           >
-            Pricing
+            {t("pricing")}
           </Link>
           <Link
             className="text-neutral-100 dark:text-neutral-400 text-md font-medium hover:underline web:underline-offset-4"
             href="/profile"
           >
-            Profile
+            {t("profile")}
           </Link>
         </View>
       </View>

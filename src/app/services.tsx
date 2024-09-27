@@ -27,10 +27,10 @@ function Content() {
           role="heading"
           className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-transparent"
         >
-          {t('welcome_message')} {/* Translated text */}
+          {t('services_title')} {/* Translated text */}
         </Text>
         <Text className="mx-auto max-w-[700px] text-lg text-center dark:text-gray-500 md:text-xl dark:text-neutral-500">
-          {t('description_message')} {/* Translated text */}
+          {t('services_description')} {/* Translated text */}
         </Text>
       </View>
 
