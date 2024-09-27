@@ -1,6 +1,9 @@
 import "../global.css";
-import { Slot } from "expo-router";
+import '../i18n';
+import { Stack } from 'expo-router';
 
 export default function Layout() {
-  return <Slot />;
+  return (
+    <Stack />
+  );
 }

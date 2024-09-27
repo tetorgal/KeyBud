@@ -17,6 +17,7 @@
     ],
     "name": "KeyBud",
     "slug": "KeyBud",
+    "userInterfaceStyle": "automatic",
     "experiments": {
       "typedRoutes": true
     }
