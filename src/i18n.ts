@@ -10,7 +10,8 @@ i18n
       en: { translation: en },
       es: { translation: es },
     },
-    lng: navigator.language || 'en', // Automatically set language from browser
+    lng: typeof navigator !== 'undefined' ?  navigator.language : 'en',
+
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
