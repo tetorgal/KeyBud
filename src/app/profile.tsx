@@ -1,80 +1,57 @@
-import { Link } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View, Image, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  FaCog,
+  FaBell,
+  FaCreditCard,
+  FaShieldAlt,
+  FaHeart,
+} from "react-icons/fa";
 
-export default function Page() {
+export default function ProfilePage() {
   return (
-    <View className="flex flex-1 bg-white dark:bg-black">
-      <Header />
-      <Content />
+    <View className="flex flex-1 bg-neutral-100 dark:bg-neutral-950">
+      <ScrollView>
+        <ProfileContent />
+      </ScrollView>
       <Footer />
     </View>
   );
 }
 
-function Content() {
+function ProfileContent() {
   return (
-    <View className="flex-1">
-      <View className="py-12 md:py-24 lg:py-32 xl:py-48">
-        <View className="px-4 md:px-6">
-          <View className="flex flex-col items-center gap-4 text-center">
-            <Text
-              role="heading"
-              className="text-white dark:text-yellow-500 text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
-            >
-              Welcome to Project ACME
-            </Text>
-            <Text className="mx-auto max-w-[700px] text-lg text-center text-gray-500 md:text-xl dark:text-gray-400">
-              Discover and collaborate on acme. Explore our services now.
-            </Text>
+    <View className="flex-1 items-center mt-10">
+      {/* Profile Header */}
+      <View className="items-center">
+        <Image
+          source={require('../assets/images/ellipse1.png')}
+          className="w-36 h-36 rounded-full"
+        />
+        <Text className="text-2xl mt-4 font-semibold text-gray-800 dark:text-gray-100">
+          Julia
+        </Text>
+      </View>
 
-            <View className="gap-4">
-              <Link
-                suppressHighlighting
-                className="flex h-9 items-center justify-center overflow-hidden rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 web:shadow ios:shadow transition-colors hover:bg-gray-900/90 active:bg-gray-400/90 web:focus-visible:outline-none web:focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                href="/"
-              >
-                Explore
-              </Link>
-            </View>
-          </View>
-        </View>
+      {/* Profile Options */}
+      <View className="w-full px-6 mt-8 space-y-6">
+        <ProfileOption title="Configuración" icon={<FaCog />} />
+        <ProfileOption title="Notificaciones" icon={<FaBell />} />
+        <ProfileOption title="Pagos" icon={<FaCreditCard />} />
+        <ProfileOption title="Seguridad" icon={<FaShieldAlt />} />
+        <ProfileOption title="Guardados" icon={<FaHeart />} />
       </View>
     </View>
   );
 }
 
-function Header() {
-  const { top } = useSafeAreaInsets();
+function ProfileOption({ title, icon }: { title: string; icon: JSX.Element }) {
   return (
-    <View style={{ paddingTop: top }}>
-      <View className="px-4 lg:px-6 h-14 flex items-center flex-row justify-between ">
-        <Link className="text-black dark:text-white font-bold flex-1 items-center justify-center" href="/">
-          ACME
-        </Link>
-        <View className="flex flex-row gap-4 sm:gap-6">
-          <Link
-            className="text-black dark:text-white text-md font-medium hover:underline web:underline-offset-4"
-            href="/"
-          >
-            About
-          </Link>
-          <Link
-            className="text-black dark:text-white text-md font-medium hover:underline web:underline-offset-4"
-            href="/"
-          >
-            Product
-          </Link>
-          <Link
-            className="text-black dark:text-white text-md font-medium hover:underline web:underline-offset-4"
-            href="/"
-          >
-            Pricing
-          </Link>
-        </View>
-      </View>
-    </View>
+    <TouchableOpacity className="flex flex-row items-center p-4 bg-white dark:bg-neutral-900 rounded-lg boxShadow-md">
+      {/* <Image source={icon} className="w-6 h-6 mr-4" /> */}
+      <Text className="text-lg text-gray-800 dark:text-gray-100">{title}</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -82,12 +59,12 @@ function Footer() {
   const { bottom } = useSafeAreaInsets();
   return (
     <View
-      className="bg-white dark:bg-black flex shrink-0 bg-gray-100 native:hidden"
+      className="bg-white dark:bg-neutral-950 flex shrink-0"
       style={{ paddingBottom: bottom }}
     >
-      <View className="text-black dark:text-white py-6 flex-1 items-start px-4 md:px-6 ">
-        <Text className={"text-center text-gray-700"}>
-          © {new Date().getFullYear()} Me
+      <View className="py-6 items-center">
+        <Text className="text-center text-gray-500 dark:text-neutral-600">
+          © {new Date().getFullYear()} KeyBud
         </Text>
       </View>
     </View>
