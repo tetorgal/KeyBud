@@ -9,6 +9,14 @@ import {
   FaHeart,
 } from "react-icons/fa";
 
+const profileOptions = {
+  settings: "Configuración",
+  notifications: "Notificaciones",
+  payments: "Pagos",
+  security: "Seguridad",
+  saved: "Guardados"
+};
+
 export default function ProfilePage() {
   return (
     <View className="flex flex-1 bg-neutral-100 dark:bg-neutral-950">
@@ -36,11 +44,11 @@ function ProfileContent() {
 
       {/* Profile Options */}
       <View className="w-full px-6 mt-8 space-y-6">
-        <ProfileOption title="Configuración" icon={<FaCog />} />
-        <ProfileOption title="Notificaciones" icon={<FaBell />} />
-        <ProfileOption title="Pagos" icon={<FaCreditCard />} />
-        <ProfileOption title="Seguridad" icon={<FaShieldAlt />} />
-        <ProfileOption title="Guardados" icon={<FaHeart />} />
+        <ProfileOption title={profileOptions.settings} icon={<FaCog />} />
+        <ProfileOption title={profileOptions.notifications} icon={<FaBell />} />
+        <ProfileOption title={profileOptions.payments} icon={<FaCreditCard />} />
+        <ProfileOption title={profileOptions.security} icon={<FaShieldAlt />} />
+        <ProfileOption title={profileOptions.saved} icon={<FaHeart />} />
       </View>
     </View>
   );
@@ -49,7 +57,6 @@ function ProfileContent() {
 function ProfileOption({ title, icon }: { title: string; icon: JSX.Element }) {
   return (
     <TouchableOpacity className="flex flex-row items-center p-4 bg-white dark:bg-neutral-900 rounded-lg boxShadow-md">
-      {/* <Image source={icon} className="w-6 h-6 mr-4" /> */}
       <Text className="text-lg text-gray-800 dark:text-gray-100">{title}</Text>
     </TouchableOpacity>
   );
