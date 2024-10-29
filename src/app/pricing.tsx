@@ -1,9 +1,9 @@
-import { Link, useRouter } from "expo-router"; // Import useRouter for navigation
+import { Link, useRouter } from "expo-router";
 import React, { useState, useEffect } from "react";
-import { ScrollView, Text, View, TouchableOpacity } from "react-native";
+import { ScrollView, Text, View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import TermsAndConditionsModal from '../components/termsAndConditionsModal'; // Adjust the path if needed
+import TermsAndConditionsModal from '../components/termsAndConditionsModal';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import '../i18n';
@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 
 export default function PricingScreen() {
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
-  const { t } = useTranslation(); // Use the translation hook
+  const { t } = useTranslation();
 
   useEffect(() => {
     const checkTermsAcceptance = async () => {
@@ -30,12 +30,11 @@ export default function PricingScreen() {
   };
 
   const handleDecline = () => {
-    router.push('/'); // Redirect to home route on decline
+    router.push('/');
   };
 
   return (
-    <View className="flex flex-1 bg-neutral-100 dark:bg-neutral-950">
-      {/* Show the modal if terms are not accepted */}
+    <View style={styles.container}>
       {!termsAccepted && (
         <TermsAndConditionsModal onAccept={handleAccept} onDecline={handleDecline} />
       )}
@@ -47,16 +46,15 @@ export default function PricingScreen() {
       )}
 
       {!termsAccepted && (
-        <View className="flex-1 justify-center items-center p-5">
-          <Text className="text-blue-500 dark:text-white text-center">
+        <View style={styles.termsPromptContainer}>
+          <Text style={styles.termsPromptText}>
             {t('terms_prompt_message', { defaultValue: 'You need to accept the Terms and Conditions to view this content.' })}
           </Text>
           <Link
-            suppressHighlighting
-            className="flex h-9 items-center justify-center mt-4 rounded-md bg-blue-600 dark:bg-blue-600 px-4 py-2 text-sm font-medium text-gray-50 transition-colors hover:bg-blue-500 dark:hover:bg-blue-500"
+            style={styles.goHomeLink}
             href="/"
           >
-            <span className="mx-2 font-bold text-white dark:text-white">{t('go_home_button', { defaultValue: 'Go Home' })}</span>
+            <Text style={styles.goHomeText}>{t('go_home_button', { defaultValue: 'Go Home' })}</Text>
             <AntDesign name="rightcircle" size={24} color="white" />
           </Link>
         </View>
@@ -71,79 +69,79 @@ function Content() {
   const { t } = useTranslation();
 
   return (
-    <View className="flex-1">
+    <View style={styles.contentContainer}>
       {/* Header Section */}
-      <View className="p-4 gap-4 mt-4 items-center overflow-hidden">
-        <Text
-          role="heading"
-          className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-transparent"
-        >
+      <View style={styles.headerSection}>
+        <Text style={styles.pricingTitle}>
           {t('pricing_title', { defaultValue: 'Our Pricing Plans' })}
         </Text>
-        <Text className="mx-auto max-w-[700px] text-lg text-center dark:text-gray-500 md:text-xl dark:text-neutral-500">
+        <Text style={styles.pricingDescription}>
           {t('pricing_description', { defaultValue: 'Choose the plan that fits your business needs.' })}
         </Text>
       </View>
 
       {/* Pricing Cards Section */}
-      <View className="px-4 mt-10 space-y-6">
+      <View style={styles.pricingCardsContainer}>
         {/* Basic Plan */}
-        <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-          <Text className="text-xl font-semibold dark:text-neutral-100 mb-2">
+        <View style={styles.pricingCard}>
+          <Text style={styles.planTitle}>
             {t('basic_plan_title', { defaultValue: 'Basic Plan' })}
           </Text>
-          <Text className="dark:text-neutral-400 mb-4">
+          <Text style={styles.planDescription}>
             {t('basic_plan_description', { defaultValue: 'Ideal for small businesses starting their digital transformation journey.' })}
           </Text>
-          <Text className="text-2xl font-bold dark:text-neutral-100">
+          <Text style={styles.planPrice}>
             {t('basic_plan_price', { defaultValue: '$49/month' })}
           </Text>
           <Link
-            suppressHighlighting
-            className="text-center font-extrabold mt-4 bg-blue-700 dark:bg-blue-700 text-white font-medium py-2 px-4 rounded shadow hover:bg-blue-700 dark:hover:bg-blue-500 transition duration-200"
+            style={styles.contactUsLink}
             href="/pricing"
           >
-            {t('contact_us', { defaultValue: 'Contact Us' })}
+            <Text style={styles.contactUsText}>
+              {t('contact_us', { defaultValue: 'Contact Us' })}
+            </Text>
           </Link>
         </View>
 
         {/* Professional Plan */}
-        <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-          <Text className="text-xl font-semibold dark:text-neutral-100 mb-2">
+        <View style={styles.pricingCard}>
+          <Text style={styles.planTitle}>
             {t('professional_plan_title', { defaultValue: 'Professional Plan' })}
           </Text>
-          <Text className="dark:text-neutral-400 mb-4">
+          <Text style={styles.planDescription}>
             {t('professional_plan_description', { defaultValue: 'Perfect for growing businesses that need advanced features and support.' })}
           </Text>
-          <Text className="text-2xl font-bold dark:text-neutral-100">
+          <Text style={styles.planPrice}>
             {t('professional_plan_price', { defaultValue: '$99/month' })}
           </Text>
           <Link
-            suppressHighlighting
-            className="text-center font-extrabold mt-4 bg-blue-700 dark:bg-blue-700 text-white font-medium py-2 px-4 rounded shadow hover:bg-blue-700 dark:hover:bg-blue-500 transition duration-200"
+            style={styles.contactUsLink}
             href="/pricing"
           >
-            {t('contact_us', { defaultValue: 'Contact Us' })}
+            <Text style={styles.contactUsText}>
+              {t('contact_us', { defaultValue: 'Contact Us' })}
+            </Text>
           </Link>
         </View>
 
         {/* Enterprise Plan */}
-        <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-          <Text className="text-xl font-semibold dark:text-neutral-100 mb-2">
+        <View style={styles.pricingCard}>
+          <Text style={styles.planTitle}>
             {t('enterprise_plan_title', { defaultValue: 'Enterprise Plan' })}
           </Text>
-          <Text className="dark:text-neutral-400 mb-4">
+          <Text style={styles.planDescription}>
             {t('enterprise_plan_description', { defaultValue: 'Tailored for large businesses needing custom solutions and dedicated support.' })}
           </Text>
-          <Text className="text-2xl font-bold dark:text-neutral-100">
+          <Text style={styles.planPrice}>
             {t('enterprise_plan_price', { defaultValue: 'Contact for Pricing' })}
           </Text>
           <Link
-            suppressHighlighting
-            className="text-center font-extrabold mt-4 bg-blue-700 dark:bg-blue-700 text-white font-medium py-2 px-4 rounded shadow hover:bg-blue-700 dark:hover:bg-blue-500 transition duration-200"
+            style={styles.contactUsLink}
             href="/pricing"
           >
-            {t('contact_us', { defaultValue: 'Contact Us' })}
+            <Text style={styles.contactUsText}>
+              {t('contact_us', { defaultValue: 'Contact Us' })}
+            </Text>
           </Link>
         </View>
       </View>
@@ -152,16 +150,126 @@ function Content() {
 }
 
 function Footer() {
-  const { t } = useTranslation();
   const { bottom } = useSafeAreaInsets();
   return (
-    <View
-      className="bg-white dark:bg-neutral-950 flex shrink-0 items-center justify-center py-4"
-      style={{ paddingBottom: bottom }}
-    >
-      <Text className="text-sm text-neutral-500">
-        {t('footer_message', { defaultValue: '© 2024 Your Company. All rights reserved.' })}
-      </Text>
+    <View style={[styles.footerContainer, { paddingBottom: bottom }]}>
+      <View style={styles.footerContent}>
+        <Text style={styles.footerText}>
+          © {new Date().getFullYear()} KeyBud
+        </Text>
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ECECEC',
+  },
+  termsPromptContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  termsPromptText: {
+    color: '#3B82F6',
+    textAlign: 'center',
+  },
+  goHomeLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 36,
+    marginTop: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#1D4ED8',
+    borderRadius: 8,
+  },
+  goHomeText: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginRight: 8,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  headerSection: {
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  pricingTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#1D4ED8',
+  },
+  pricingDescription: {
+    marginTop: 8,
+    maxWidth: 700,
+    textAlign: 'center',
+    color: "#2D3748",
+    fontSize: 20,
+  },
+  pricingCardsContainer: {
+    paddingHorizontal: 16,
+    marginTop: 20,
+  },
+  pricingCard: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 }, // Larger offset for shadow
+    shadowOpacity: 0.2, // Increase shadow opacity
+    shadowRadius: 6, // Increase shadow spread
+    elevation: 8, // Higher elevation for Android
+    marginBottom: 16,
+  },
+  planTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+    marginBottom: 8,
+  },
+  planDescription: {
+    color: "#2D3748",
+    fontSize: 18,
+    marginBottom: 16,
+  },
+  planPrice: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#F5F5F5',
+  },
+  contactUsLink: {
+    marginTop: 16,
+    backgroundColor: "#2563eb",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    display: 'flex', // Ensure the component is a flex container
+    alignItems: 'center', // Center content vertically
+    justifyContent: 'center', // Center content horizontally
+    flexDirection: 'row', // Ensures row layout if you add an icon
+  },
+  contactUsText: {
+    color: 'white',
+    fontWeight: '700',
+    textAlign: 'center', // Centers text horizontally
+  },
+  footerContainer: {
+    backgroundColor: '#FFFFFF',
+  },
+  footerContent: {
+    paddingVertical: 4,
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#9CA3AF',
+    textAlign: 'center',
+  },
+});

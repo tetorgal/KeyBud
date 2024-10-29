@@ -1,25 +1,28 @@
 import React from "react";
-import { ScrollView, Text, View, Image, TouchableOpacity } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  FaCog,
-  FaBell,
-  FaCreditCard,
-  FaShieldAlt,
-  FaHeart,
-} from "react-icons/fa";
+import { ScrollView, Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
-const profileOptions = {
+type ProfileOptionKey = 'settings' | 'notifications' | 'payments' | 'security' | 'saved';
+
+const profileOptions: Record<ProfileOptionKey, string> = {
   settings: "Configuración",
   notifications: "Notificaciones",
   payments: "Pagos",
   security: "Seguridad",
-  saved: "Guardados"
+  saved: "Guardados",
+};
+
+const iconNames: Record<ProfileOptionKey, keyof typeof Ionicons.glyphMap> = {
+  settings: "settings-outline",
+  notifications: "notifications-outline",
+  payments: "card-outline",
+  security: "shield-outline",
+  saved: "heart-outline",
 };
 
 export default function ProfilePage() {
   return (
-    <View className="flex flex-1 bg-neutral-100 dark:bg-neutral-950">
+    <View style={styles.container}>
       <ScrollView>
         <ProfileContent />
       </ScrollView>
@@ -30,50 +33,110 @@ export default function ProfilePage() {
 
 function ProfileContent() {
   return (
-    <View className="flex-1 items-center mt-10">
+    <View style={styles.contentContainer}>
       {/* Profile Header */}
-      <View className="items-center">
+      <View style={styles.profileHeader}>
         <Image
           source={require('../assets/images/ellipse1.png')}
-          className="w-36 h-36 rounded-full"
+          style={styles.profileImage}
         />
-        <Text className="text-2xl mt-4 font-semibold text-gray-800 dark:text-gray-100">
-          Julia
-        </Text>
+        <Text style={styles.profileName}>Julia</Text>
       </View>
 
       {/* Profile Options */}
-      <View className="w-full px-6 mt-8 space-y-6">
-        <ProfileOption title={profileOptions.settings} icon={<FaCog />} />
-        <ProfileOption title={profileOptions.notifications} icon={<FaBell />} />
-        <ProfileOption title={profileOptions.payments} icon={<FaCreditCard />} />
-        <ProfileOption title={profileOptions.security} icon={<FaShieldAlt />} />
-        <ProfileOption title={profileOptions.saved} icon={<FaHeart />} />
+      <View style={styles.optionsContainer}>
+        {(Object.keys(profileOptions) as ProfileOptionKey[]).map((key) => (
+          <ProfileOption key={key} optionKey={key} />
+        ))}
       </View>
     </View>
   );
 }
 
-function ProfileOption({ title, icon }: { title: string; icon: JSX.Element }) {
+function ProfileOption({ optionKey }: { optionKey: ProfileOptionKey }) {
   return (
-    <TouchableOpacity className="flex flex-row items-center p-4 bg-white dark:bg-neutral-900 rounded-lg boxShadow-md">
-      <Text className="text-lg text-gray-800 dark:text-gray-100">{title}</Text>
+    <TouchableOpacity style={styles.optionButton}>
+      <View style={styles.iconContainer}>
+        <Ionicons name={iconNames[optionKey]} size={24} color="#2563eb" />
+      </View>
+      <Text style={styles.optionText}>{profileOptions[optionKey]}</Text>
     </TouchableOpacity>
   );
 }
 
 function Footer() {
-  const { bottom } = useSafeAreaInsets();
   return (
-    <View
-      className="bg-white dark:bg-neutral-950 flex shrink-0"
-      style={{ paddingBottom: bottom }}
-    >
-      <View className="py-6 items-center">
-        <Text className="text-center text-gray-500 dark:text-neutral-600">
-          © {new Date().getFullYear()} KeyBud
-        </Text>
+    <View style={styles.footerContainer}>
+      <View style={styles.footerContent}>
+        <Text style={styles.footerText}>© {new Date().getFullYear()} KeyBud</Text>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ECECEC',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  profileHeader: {
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 144,
+    height: 144,
+    borderRadius: 72,
+  },
+  profileName: {
+    fontSize: 24,
+    marginTop: 16,
+    fontWeight: '600',
+    color: '#3B3B3B',
+  },
+  optionsContainer: {
+    width: '100%',
+    paddingHorizontal: 24,
+    marginTop: 32,
+  },
+  optionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+    marginBottom: 12,
+  },
+  iconContainer: {
+    backgroundColor: "#EBF2FF",
+    borderRadius: 8,
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  optionText: {
+    fontSize: 18,
+    color: '#3B3B3B',
+    marginLeft: 12,
+  },
+  footerContainer: {
+    backgroundColor: 'white',
+    paddingVertical: 8,
+  },
+  footerContent: {
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#9CA3AF',
+    textAlign: 'center',
+  },
+});

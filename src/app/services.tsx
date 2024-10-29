@@ -1,14 +1,13 @@
 import { Link } from "expo-router";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useTranslation } from 'react-i18next';
 import '../i18n';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function Page() {
   return (
-    <View className="flex flex-1 bg-neutral-100 dark:bg-neutral-950">
+    <View style={styles.container}>
       <ScrollView>
         <Content />
       </ScrollView>
@@ -21,86 +20,181 @@ function Content() {
   const { t } = useTranslation();
 
   return (
-    <View className="flex-1">
+    <View style={styles.contentContainer}>
       {/* Header Section */}
-      <View className="p-4 gap-4 mt-4 items-center overflow-hidden">
+      <View style={styles.headerSection}>
         <Text
           role="heading"
-          className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-transparent"
+          style={styles.pricingTitle}
         >
           {t('services_title')} {/* Services Title */}
         </Text>
-        <Text className="mx-auto max-w-[700px] text-lg text-center dark:text-gray-500 md:text-xl dark:text-neutral-500">
+        <Text style={styles.pricingDescription}>
           {t('services_description')} {/* Services Description */}
         </Text>
       </View>
 
       {/* Cards Section */}
-      <View className="px-4 mt-10 space-y-6">
+      <View style={styles.pricingCardsContainer}>
         {/* Card 1 */}
-        <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-          <Text className="text-xl font-semibold dark:text-neutral-100 mb-2">
+        <View style={styles.pricingCard}>
+          <Text style={styles.planTitle}>
             {t('it_consulting_title')} {/* IT Consulting Title */}
           </Text>
-          <Text className="dark:text-neutral-400">
+          <Text style={styles.planDescription}>
             {t('it_consulting_description')} {/* IT Consulting Description */}
           </Text>
           <Link
             suppressHighlighting
-            className="mt-4 text-blue-600 dark:text-blue-400 font-medium"
+            style={styles.goHomeLink}
             href="/services"
           >
-            {t('read_more')} {/* Read More */}
+            <Text style={styles.goHomeText}>
+              {t('read_more')} {/* Read More */}
+            </Text>
           </Link>
         </View>
 
         {/* Card 2 */}
-        <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-          <Text className="text-xl font-semibold dark:text-neutral-100 mb-2">
+        <View style={styles.pricingCard}>
+          <Text style={styles.planTitle}>
             {t('cloud_solutions_title')} {/* Cloud Solutions Title */}
           </Text>
-          <Text className="dark:text-neutral-400">
+          <Text style={styles.planDescription}>
             {t('cloud_solutions_description')} {/* Cloud Solutions Description */}
           </Text>
           <Link
             suppressHighlighting
-            className="mt-4 text-blue-600 dark:text-blue-400 font-medium"
+            style={styles.goHomeLink}
             href="/services"
           >
-            {t('read_more')} {/* Read More */}
+            <Text style={styles.goHomeText}>
+              {t('read_more')} {/* Read More */}
+            </Text>
           </Link>
         </View>
 
-        <View>
-          <Link
-            suppressHighlighting
-            className="flex h-9 items-center justify-center mt-4 rounded-md bg-blue-600 dark:bg-blue-600 px-4 py-2 text-sm font-medium text-gray-50 transition-colors hover:bg-blue-500 dark:hover:bg-blue-500"
-            href="/pricing"
-          >
-            <span className="mx-2 font-bold text-white dark:text-white">
-              {t('explore_pricing')}
-            </span>
-            <AntDesign name="rightcircle" size={24} color="white" />
-          </Link>
-        </View>
+        <Link href="/pricing" style={styles.contactUsLink}>
+          <Text style={styles.contactUsText}>
+            {t("pricing")}
+          </Text>
+          <AntDesign name="rightcircle" size={18} color="white" style={styles.icon} />
+        </Link>
       </View>
     </View>
   );
 }
 
 function Footer() {
-  const { bottom } = useSafeAreaInsets();
-  const { t } = useTranslation();  // Add translation for footer
   return (
-    <View
-      className="bg-white dark:bg-neutral-950 flex shrink-0 bg-gray-100 native:hidden"
-      style={{ paddingBottom: bottom }}
-    >
-      <View className="py-6 flex-1 items-start px-4 md:px-6">
-        <Text className={"text-center dark:text-neutral-600 text-black"}>
+    <View style={styles.footerContainer}>
+      <View style={styles.footerContent}>
+        <Text style={styles.footerText}>
           © {new Date().getFullYear()} KeyBud
         </Text>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ECECEC',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  headerSection: {
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  pricingTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#1D4ED8',
+  },
+  pricingDescription: {
+    marginTop: 8,
+    maxWidth: 700,
+    textAlign: 'center',
+    color: "#2D3748",
+    fontSize: 20,
+  },
+  pricingCardsContainer: {
+    paddingHorizontal: 16,
+    marginTop: 20,
+  },
+  pricingCard: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 8,
+    marginBottom: 16,
+  },
+  planTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+    marginBottom: 8,
+  },
+  planDescription: {
+    color: "#2D3748",
+    fontSize: 18,
+    marginBottom: 16,
+  },
+  goHomeLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 36,
+    marginTop: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: "#2563eb",
+    borderRadius: 8,
+  },
+  goHomeText: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginRight: 8,
+  },
+  footerContainer: {
+    backgroundColor: '#FFFFFF',
+  },
+  footerContent: {
+    paddingVertical: 4,
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#9CA3AF',
+    textAlign: 'center',
+  },
+  contactUsLink: {
+    marginTop: 16,
+    backgroundColor: "#2563eb",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    display: 'flex', // Ensure the component is a flex container
+    alignItems: 'center', // Center content vertically
+    justifyContent: 'center', // Center content horizontally
+    flexDirection: 'row', // Ensures row layout if you add an icon
+  },
+  contactUsText: {
+    color: 'white',
+    fontWeight: '700',
+    textAlign: 'center', // Centers text horizontally
+  },
+  icon: {
+    marginLeft: 8, // Space between text and icon
+  },
+});

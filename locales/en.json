@@ -38,5 +38,9 @@
   "enterprise_plan_description": "Tailored for large businesses needing custom solutions and dedicated support.",
   "enterprise_plan_price": "Contact for Pricing",
   "contact_us": "Contact Us",
-  "footer_message": "© 2024 Your Company. All rights reserved."
+  "footer_message": "© 2024 Your Company. All rights reserved.",
+"services": "Services",
+  "pricing": "Pricing",
+  "profile": "Profile",
+  "feedback": "Feedback"
 }

@@ -1,102 +1,46 @@
+import React, { useState } from "react";
+import { ScrollView, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import AntDesign from '@expo/vector-icons/AntDesign';
-import '../i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-export default function Page() {
+// Ensure that i18n is initialized
+import "../i18n";
+
+type HeaderProps = {
+  onMenuToggle: () => void;
+};
+
+function Header({ onMenuToggle }: HeaderProps) {
   return (
-    <View className="flex flex-1 bg-neutral-100 dark:bg-neutral-950">
-
-      <ScrollView className="flex flex-1">
-        <Header />
-        <Content />
-      </ScrollView>
-      <Footer />
+    <View style={styles.header}>
+      <Link href="/">
+        <Text style={styles.headerTitle}>KeyBud</Text>
+      </Link>
+      <TouchableOpacity onPress={onMenuToggle}>
+        <Ionicons name="menu-outline" size={30} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }
 
 function Content() {
-  const { t } = useTranslation(); // Use the translation hook
-
-  return (
-    <View className="flex-1 py-12 md:py-24 lg:py-32 xl:py-48">
-      <View className="px-4 md:px-6">
-        <View className="flex flex-col items-center gap-4 text-center">
-          <Text
-            role="heading"
-            className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-transparent"
-          >
-            {t('welcome_message')}
-          </Text>
-          <Text className="mx-auto max-w-[700px] text-lg text-center md:text-xl text-black dark:text-neutral-500">
-            {t('description_message')}
-          </Text>
-
-          <View className="gap-4">
-            <Link
-              suppressHighlighting
-              className="flex h-9 items-center justify-center rounded-md bg-blue-600 dark:bg-blue-600 px-4 py-2 text-sm font-medium text-gray-50 transition-colors hover:bg-blue-500 dark:hover:bg-blue-500"
-              href="/services"
-            >
-              <span className="mx-2 font-bold text-white dark:text-white">{t('explore_services')}</span>
-              <AntDesign name="rightcircle" size={24} color="white" />
-            </Link>
-          </View>
-
-          <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-            <Text className="text-lg font-bold text-black dark:text-white">{t('mission_title')}</Text>
-            <Text className="text-black dark:text-neutral-400">
-              {t('mission_description')}
-            </Text>
-          </View>
-
-          <View className="dark:bg-neutral-900 rounded-lg p-6 shadow-lg">
-            <Text className="text-lg font-bold dark:text-white">{t('about_us_title')}</Text>
-            <Text className="text-black dark:text-neutral-400">
-              {t('about_us_description')}
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function Header() {
   const { t } = useTranslation();
-  const { top } = useSafeAreaInsets();
+
   return (
-    <View style={{ paddingTop: top }}>
-      <View className="px-4 lg:px-6 h-14 flex items-center flex-row justify-between bg-blue-600 dark:bg-neutral-900">
-        <Link
-          className="bg-neutral-100 dark:bg-gradient-to-r from-blue-500 to-blue-900 bg-clip-text text-transparent font-bold flex-1 items-center justify-center"
-          href="/"
-        >
-          KeyBud
-        </Link>
-        <View className="flex flex-row gap-4 sm:gap-6">
-          <Link
-            className="text-neutral-100 dark:text-neutral-400 text-md font-medium hover:underline web:underline-offset-4"
-            href="/services"
-          >
-            {t("services")}
-          </Link>
-          <Link
-            className="text-neutral-100 dark:text-neutral-400 text-md font-medium hover:underline web:underline-offset-4"
-            href="/pricing"
-          >
-            {t("pricing")}
-          </Link>
-          <Link
-            className="text-neutral-100 dark:text-neutral-400 text-md font-medium hover:underline web:underline-offset-4"
-            href="/profile"
-          >
-            {t("profile")}
-          </Link>
+    <View style={styles.contentContainer}>
+      <View style={styles.innerContentContainer}>
+        <Text style={styles.heading}>{t("welcome_message")}</Text>
+        <Text style={styles.description}>{t("description_message")}</Text>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>{t("mission_title")}</Text>
+          <Text style={styles.cardDescription}>{t("mission_description")}</Text>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>{t("about_us_title")}</Text>
+          <Text style={styles.cardDescription}>{t("about_us_description")}</Text>
         </View>
       </View>
     </View>
@@ -104,17 +48,174 @@ function Header() {
 }
 
 function Footer() {
-  const { bottom } = useSafeAreaInsets();
   return (
-    <View
-      className="bg-white dark:bg-neutral-950 flex-shrink-0"
-      style={{ paddingBottom: bottom }}
-    >
-      <View className="py-6 flex-1 items-start px-4 md:px-6">
-        <Text className="text-center dark:text-neutral-600 text-black">
-          © {new Date().getFullYear()} KeyBud
-        </Text>
-      </View>
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>© {new Date().getFullYear()} KeyBud</Text>
     </View>
   );
 }
+
+type MenuProps = {
+  onClose: () => void;
+};
+
+function Menu({ onClose }: MenuProps) {
+  const { t } = useTranslation();
+  const links = [
+    { href: "/services", text: t("services"), icon: "star-outline" as const },
+    { href: "/pricing", text: t("pricing"), icon: "cash-outline" as const },
+    { href: "/profile", text: t("profile"), icon: "person-outline" as const },
+    { href: "/feedback", text: t("feedback"), icon: "chatbubbles-outline" as const },
+  ];
+
+  return (
+    <View style={styles.menu}>
+      <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+        <Ionicons name="close" size={30} color="#fff" />
+      </TouchableOpacity>
+      {links.map((link, index) => (
+        <View key={index} style={styles.menuLinkContainer}>
+          <Link href={link.href} style={styles.menuLink} onPress={onClose}>
+            <View style={styles.menuItem}>
+              <Ionicons name={link.icon} size={24} color="#fff" />
+              <Text style={styles.menuLinkText}>{link.text}</Text>
+            </View>
+          </Link>
+          <View style={styles.border} />
+        </View>
+      ))}
+    </View>
+  );
+}
+
+export default function Page() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  return (
+    <View style={styles.container}>
+      {isMenuOpen && <Menu onClose={toggleMenu} />}
+      <ScrollView style={styles.scrollView}>
+        <Header onMenuToggle={toggleMenu} />
+        <Content />
+      </ScrollView>
+      <Footer />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ECECEC',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    paddingVertical: 48,
+  },
+  innerContentContainer: {
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
+  heading: {
+    fontSize: 36,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#1d4ed8",
+  },
+  description: {
+    fontSize: 20,
+    textAlign: "center",
+    color: "#2D3748",
+    maxWidth: 700,
+    marginBottom: 24,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    backgroundColor: "#2563eb",
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  footer: {
+    backgroundColor: "#f8fafc",
+    paddingVertical: 8,
+    alignItems: "center",
+  },
+  footerText: {
+    color: "#6b7280",
+  },
+  menu: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: '#2563eb',
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    zIndex: 10,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginBottom: 20,
+  },
+  menuLinkContainer: {
+    marginBottom: 20,
+  },
+  menuLink: {
+    marginBottom: 5,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+  },
+  menuLinkText: {
+    color: '#fff',
+    fontSize: 18,
+    marginLeft: 10,
+  },
+  border: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
+    marginTop: 5,
+  },
+  card: {
+    backgroundColor: '#F5F5F5',
+    padding: 16,
+    borderRadius: 8,
+    marginVertical: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    width: "90%",
+    maxWidth: 350,
+    alignSelf: "center",
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#374151",
+    marginBottom: 8,
+  },
+  cardDescription: {
+    color: "#2D3748",
+    fontSize: 18,
+  },
+});

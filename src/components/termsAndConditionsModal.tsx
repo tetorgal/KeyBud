@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, Alert } from 'react-native';
+import { Modal, View, Text, Alert, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next'; // Import translation hook
 import '../i18n'; // Import the i18n configuration
 
@@ -15,15 +14,14 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({ onAcc
   const { t } = useTranslation(); // Initialize translation
 
   useEffect(() => {
+    const checkIfTermsAccepted = async () => {
+      const accepted = await AsyncStorage.getItem('termsAccepted');
+      if (accepted !== 'true') {
+        setIsModalVisible(true);
+      }
+    };
     checkIfTermsAccepted();
   }, []);
-
-  const checkIfTermsAccepted = async () => {
-    const accepted = await AsyncStorage.getItem('termsAccepted');
-    if (!accepted) {
-      setIsModalVisible(true);
-    }
-  };
 
   const handleAcceptTerms = async () => {
     await AsyncStorage.setItem('termsAccepted', 'true');
@@ -35,9 +33,8 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({ onAcc
     Alert.alert(
       t('terms_alert_title'), // Use translation for alert title
       t('terms_alert_message'), // Use translation for alert message
-      [{ text: t('terms_alert_button'), onPress: () => onDecline() }] // Use translation for button text
+      [{ text: t('terms_alert_button'), onPress: () => { setIsModalVisible(false); onDecline(); } }] // Close modal and call decline
     );
-    setIsModalVisible(false);  // Close modal on disagreement
   };
 
   return (
@@ -46,28 +43,25 @@ const TermsAndConditionsModal: React.FC<TermsAndConditionsModalProps> = ({ onAcc
       animationType="slide"
       transparent={true}
     >
-      <View className="flex-1 justify-center items-center bg-black bg-opacity-75">
-        <View className="bg-white p-6 rounded-lg w-11/12 bg-white dark:bg-neutral-900">
-          <Text className="text-lg font-bold mb-4 text-black dark:text-white">
-            {t('terms_title')} {/* Use translation for terms title */}
-          </Text>
-          <Text className="text-base text-black mb-4 text-black dark:text-gray-100">
-            {t('terms_description')} {/* Use translation for terms description */}
-          </Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.75)' }}>
+        <View style={{ backgroundColor: 'white', padding: 16, borderRadius: 8, width: '90%' }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>{t('terms_title')}</Text>
+          <Text style={{ fontSize: 16, marginBottom: 12 }}>{t('terms_description')}</Text>
+
           {/* Agree Button */}
           <TouchableOpacity
             onPress={handleAcceptTerms}
-            className="bg-blue-600 p-3 rounded-md mb-2"
+            style={{ backgroundColor: '#3b82f6', padding: 12, borderRadius: 5, marginBottom: 8 }}
           >
-            <Text className="text-white text-center">{t('terms_accept')}</Text> {/* Translation for Agree button */}
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('terms_accept')}</Text>
           </TouchableOpacity>
 
           {/* Disagree Button */}
           <TouchableOpacity
             onPress={handleDisagree}
-            className="border border-gray-100 p-3 rounded-md"
+            style={{ borderColor: '#e5e7eb', borderWidth: 1, padding: 12, borderRadius: 5 }}
           >
-            <Text className="text-white text-center">{t('terms_decline')}</Text> {/* Translation for Disagree button */}
+            <Text style={{ color: '#3b82f6', textAlign: 'center' }}>{t('terms_decline')}</Text>
           </TouchableOpacity>
         </View>
       </View>

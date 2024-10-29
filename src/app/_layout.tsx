@@ -1,7 +1,9 @@
 import "../global.css";
 import '../i18n';
+import "intl-pluralrules";
+import i18next from "i18next";
 import { Stack } from 'expo-router';
-import TermsAndConditionsModal from '../components/termsAndConditionsModal'; // Adjust the path if needed
+import TermsAndConditionsModal from '../components/termsAndConditionsModal';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
